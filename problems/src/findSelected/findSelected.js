@@ -1,44 +1,3 @@
-const selected = ["one", "Three"];
-
-const data = [
-  {
-    id: 1,
-    num: "one",
-    living: false,
-  },
-  {
-    id: 2,
-    num: "one",
-    living: true,
-  },
-  {
-    id: 3,
-    num: "two",
-    living: false,
-  },
-  {
-    id: 4,
-    num: "three",
-    living: true,
-  },
-  {
-    id: 5,
-    num: "two",
-    living: true,
-  },
-  {
-    id: 6,
-    num: "one",
-    living: false,
-  },
-
-  {
-    id: 7,
-    num: "two",
-    living: false,
-  },
-];
-
 function findSelected(data, selected) {
   // let results = [];
   // for (let i = 0; i < selected.length; i++) {
@@ -57,7 +16,6 @@ function findSelected(data, selected) {
     return acc;
   };
   const found = data.reduce(reducer, []);
-  console.log(found);
+  return found;
 }
-
-findSelected(data, selected);
+module.exports = findSelected;
