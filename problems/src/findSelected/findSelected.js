@@ -7,8 +7,10 @@ function findSelected(data, selected) {
   //   );
   //   results = [...results, ...getData];
   // }
-  // console.log(results);
-  let lowerCaseTags = selected.map((item) => item.toLowerCase());
+  // console.log(results);//O(n*2)
+  let lowerCaseTags = selected.map((item) => {
+    if (typeof item === "string") item.toLowerCase();
+  });
   const reducer = (acc, curr) => {
     if (lowerCaseTags.includes(curr.num.toLowerCase())) {
       acc.push(curr);
@@ -16,6 +18,6 @@ function findSelected(data, selected) {
     return acc;
   };
   const found = data.reduce(reducer, []);
-  return found;
+  return found; //O(n)
 }
 module.exports = findSelected;

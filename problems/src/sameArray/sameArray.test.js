@@ -14,4 +14,13 @@ describe("Same Array", function () {
   it("2nd array should have squred of 1st array of values", function () {
     assert.isBoolean(sameArray([2, 3, 6], [4, 9, 36]), true);
   });
+  it("checks mixed array", function () {
+    assert.isBoolean(sameArray([2, 4], ["a", 16]), false);
+  });
+  it("checks mixed array", function () {
+    assert.isBoolean(sameArray([2, 4], [{ id: 4 }, 16]), false);
+  });
+  it("checks empty array", function () {
+    assert.isBoolean(sameArray([2, 4], []), false);
+  });
 });

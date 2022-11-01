@@ -74,4 +74,7 @@ describe("Find Selected", function () {
   it("expects empty array", function () {
     expect(findSelected(data, []), []);
   });
+  it("expects no data in return if selected is mixed array", function () {
+    expect(findSelected(data, [{ id: 2, num: "three" }]), []);
+  });
 });
