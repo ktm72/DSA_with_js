@@ -1,18 +1,30 @@
 class Graph {
   constructor() {
-    this.adjacentList = {};
+    this.adjacenyList = {};
   }
   addVertex(vertex) {
-    if (!this.adjacentList[vertex]) {
-      this.adjacentList[vertex] = [];
+    if (!this.adjacenyList[vertex]) {
+      this.adjacenyList[vertex] = [];
       return true;
     }
     return false;
   }
   addEdge(vertex1, vertex2) {
-    if (this.adjacentList[vertex1] && this.adjacentList[vertex2]) {
-      this.adjacentList[vertex1].push(vertex2);
-      this.adjacentList[vertex2].push();
+    if (this.adjacenyList[vertex1] && this.adjacenyList[vertex2]) {
+      this.adjacenyList[vertex1].push(vertex2);
+      this.adjacenyList[vertex2].push(vertex1);
+      return true;
+    }
+    return false;
+  }
+  removeEdge(vertex1, vertex2) {
+    if (this.adjacenyList[vertex1] && this.adjacenyList[vertex2]) {
+      this.adjacenyList[vertex1] = this.adjacenyList[vertex1].filter(
+        (v) => v !== vertex2
+      );
+      this.adjacenyList[vertex2] = this.adjacenyList[vertex2].filter(
+        (v) => v !== vertex1
+      );
       return true;
     }
     return false;
@@ -24,4 +36,7 @@ myGraph.addVertex(1);
 myGraph.addVertex(2);
 myGraph.addVertex(3);
 myGraph.addEdge("1", "2");
+myGraph.addEdge("2", "3");
+myGraph.addEdge("3", "1");
+myGraph.removeEdge("2", "3");
 console.log(myGraph);
