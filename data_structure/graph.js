@@ -29,6 +29,15 @@ class Graph {
     }
     return false;
   }
+  removeVertex(vertex) {
+    if (!this.adjacenyList[vertex]) return undefined;
+    while (this.adjacenyList[vertex].length) {
+      let temp = this.adjacenyList[vertex].pop();
+      this.removeEdge(vertex, temp);
+    }
+    delete this.adjacenyList[vertex];
+    return this;
+  }
 }
 
 let myGraph = new Graph();
@@ -39,4 +48,4 @@ myGraph.addEdge("1", "2");
 myGraph.addEdge("2", "3");
 myGraph.addEdge("3", "1");
 myGraph.removeEdge("2", "3");
-console.log(myGraph);
+console.log(myGraph.removeVertex("2"));
