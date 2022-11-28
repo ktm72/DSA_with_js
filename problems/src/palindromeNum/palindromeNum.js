@@ -18,3 +18,4 @@ var isPalindrome = function (x) {
   return x === reverse || x === Math.floor(reverse / 10); //O(log10(n))
 };
 console.log(isPalindrome(11));
+console.log(isPalindrome(121));

@@ -11,11 +11,11 @@ function memoise() {
   return function fibonacci(n) {
     calculation++;
     if (n.toString() in cache) {
-      return cache[n.toString()];
+      return cache[n];
     } else {
       if (n <= 2) return 1;
       const result = fibonacci(n - 1) + fibonacci(n - 2);
-      cache[n.toString()] = result;
+      cache[n] = result;
       return result;
     }
   };

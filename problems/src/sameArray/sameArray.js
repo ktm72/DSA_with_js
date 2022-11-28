@@ -14,13 +14,6 @@
 
 //console.log(same([2, 3, 6], [36, 9, 4])); //O(n*2)
 
-// function same(arr1, arr2) {
-//   if (arr1.length !== arr2.length) {
-//     return false;
-//   }
-//   let sequenceCounter1 = {};
-//   let sequenceCounter2 = {};
-
 function same(arr1, arr2) {
   if (arr1.length !== arr2.length) {
     return false;
