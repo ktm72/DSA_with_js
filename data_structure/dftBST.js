@@ -1,3 +1,5 @@
+//depth first traversal in BST
+
 class Node {
   constructor(value) {
     this.value = value;
@@ -6,12 +8,12 @@ class Node {
   }
 }
 
-const a = new Node(3);
-const b = new Node(2);
+const a = new Node(5);
+const b = new Node(3);
 const c = new Node(7);
-const d = new Node(4);
-const e = new Node(-2);
-const f = new Node(5);
+const d = new Node(-2);
+const e = new Node(4);
+const f = new Node(9);
 
 a.left = b;
 a.right = c;
@@ -22,20 +24,23 @@ c.right = f;
 //    a
 //  b   c
 //d e    f
-// const dfp = (root) => {
-//   const stack = [root];
-//   while (stack.length > 0) {
-//     const curr = stack.pop();
-//     console.log(curr.value);
-//     //add curr's children to the top of the stack
-//     if (curr.right !== null) {
-//       stack.push(curr.right);
-//     }
-//     if (curr.left !== null) {
-//       stack.push(curr.left);
-//     }
-//   }
-// };
+const dfp = (root) => {
+  const stack = [root];
+  while (stack.length > 0) {
+    //pop currNode from stack
+    const curr = stack.pop();
+    //do your operation
+    console.log(curr.value);
+    //add curr's children to the top of the stack
+    if (curr.right !== null) {
+      stack.push(curr.right);
+    }
+    if (curr.left !== null) {
+      stack.push(curr.left);
+    }
+  }
+};
+dfp(a);
 //recursive
 // const dfp = (root) => {
 //   if (root === null) return;
@@ -85,9 +90,9 @@ c.right = f;
 //   }
 //   return sum;
 // };
-const sumTree = (root) => {
-  if (root === null) return 0;
-  return sumTree(root.left) + root.value + sumTree(root.right);
-};
+// const sumTree = (root) => {
+//   if (root === null) return 0;
+//   return sumTree(root.left) + root.value + sumTree(root.right);
+// };
 
-console.log(sumTree(a));
+// console.log(sumTree(a));

@@ -4,35 +4,37 @@
 //For each round, we need to scan all points to find the next point to connect to.
 //Prim's complete Graph algorithm
 function minCostConnectPoints(points) {
-  let n = points.length,
+  let vertices = points.length,
     min_dist = 0,
-    i = 0,
+    currEdge = 0,
     connected = 0;
   //create a graph Array for n points with greater num
-  let graph = new Array(n).fill(10000000);
+  let graph = new Array(vertices).fill(10000000); //weight=>distance
   //need to be connected all the points
-  while (++connected < n) {
-    graph[i] = Number.MAX_SAFE_INTEGER;
-    let min_j = i;
+  while (++connected < vertices) {
+    graph[currEdge] = Number.MAX_SAFE_INTEGER; //visited
+    let min_edge = currEdge;
     //explore all the points
-    for (let j = 0; j < n; ++j)
-      //check each graph point is not equal to max int
+    for (let j = 0; j < vertices; ++j) {
+      //check each edge except currEdge and visited
       if (graph[j] != Number.MAX_SAFE_INTEGER) {
+        //distances are the weights here
         // const [x1, y1] = points[i];
         // const [x2, y2] = points[j];
         // const distance = Math.abs(x1 - x2) + Math.abs(y1 - y2);
+        const distance =
+          Math.abs(points[currEdge][0] - points[j][0]) +
+          Math.abs(points[currEdge][1] - points[j][1]);
         //update min val to that graph point
-        graph[j] = Math.min(
-          graph[j],
-          Math.abs(points[i][0] - points[j][0]) +
-            Math.abs(points[i][1] - points[j][1])
-        );
-        min_j = graph[j] < graph[min_j] ? j : min_j;
+        graph[j] = Math.min(graph[j], distance);
+        //
+        min_edge = graph[j] < graph[min_edge] ? j : min_edge;
       }
-    //update min graph node distance
-    min_dist += graph[min_j];
-    //update min graph node
-    i = min_j;
+    }
+    //update min edge distance
+    min_dist += graph[min_edge];
+    //update min edge
+    currEdge = min_edge;
   }
   return min_dist;
 }
@@ -45,3 +47,40 @@ console.log(
     [7, 0],
   ])
 );
+
+//Using MinPriorityQueue //Lazy version
+// function minCostConnectPoints(points) {
+//   const verticiesCount = points.length; //n
+//   const pq = new MinPriorityQueue({ priority: ([cost]) => cost });
+//   const visited = new Array(verticiesCount).fill(false);
+//   let totalCost = 0,
+//     connections = 0,
+//     current = 0; //i
+//   while (++connections < verticiesCount) {
+//     visited[current] = true;
+//     // Start dequeueing before adding the current node's neighbors to the pq
+//     while (pq.size() && visited[pq.front().element[1]]) {
+//       pq.dequeue();
+//     }
+//     for (const [cost, neighbor] of uniqueConnections(current)) {
+//       pq.enqueue([cost, neighbor]);
+//     }
+//     const [cost, node] = pq.dequeue().element;
+//     totalCost += cost;
+//     current = node;
+//   }
+//   return totalCost;
+
+//   function* uniqueConnections(curr) {
+//     for (let i = 0; i < verticiesCount; i++) {
+//       //already visited check
+//       if (i === curr || visited[i]) continue;
+//       //curr edge to adjacent edges
+//       yield [dist(points[curr], points[i]), i];
+//     }
+//   }
+// }
+
+// function dist([x1, y1], [x2, y2]) {
+//   return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+// }
