@@ -7,31 +7,41 @@ class Node {
     this.left = null;
   }
 }
-
-const a = new Node(5);
-const b = new Node(3);
-const c = new Node(7);
-const d = new Node(-2);
-const e = new Node(4);
+const a = new Node(3);
+const b = new Node(5);
+const c = new Node(1);
+const d = new Node(6);
+const e = new Node(2);
 const f = new Node(9);
+const g = new Node(8);
+const h = new Node(7);
+const i = new Node(4);
 
 a.left = b;
 a.right = c;
 b.left = d;
 b.right = e;
-c.right = f;
+c.left = f;
+c.right = g;
+e.left = h;
+e.right = i;
 
-//    a
-//  b   c
-//d e    f
+//        3
+//     5     1
+//   6  2   9 8
+//     7 4
 const dfp = (root) => {
+  let arr = [];
   const stack = [root];
   while (stack.length > 0) {
     //pop currNode from stack
     const curr = stack.pop();
     //do your operation
-    console.log(curr.value);
-    //add curr's children to the top of the stack
+    // console.log(curr.value);
+    if (!curr.left && !curr.right) {
+      arr.push(curr.value);
+    }
+    //add right first, so the left will be the top of the stack
     if (curr.right !== null) {
       stack.push(curr.right);
     }
@@ -39,8 +49,9 @@ const dfp = (root) => {
       stack.push(curr.left);
     }
   }
+  return arr;
 };
-dfp(a);
+console.log(dfp(a));
 //recursive
 // const dfp = (root) => {
 //   if (root === null) return;

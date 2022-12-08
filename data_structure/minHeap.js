@@ -4,39 +4,39 @@ class MinHeap {
     this.size = 0;
   }
   // helper method --> start
-  getParentIndex(index) {
+  _getParentIndex(index) {
     return Math.floor((index - 1) / 2);
   }
-  getLeftChildIndex(index) {
+  _getLeftChildIndex(index) {
     return 2 * index + 1;
   }
-  getRightChildIndex(index) {
+  _getRightChildIndex(index) {
     return 2 * index + 2;
   }
-  hasParent(index) {
-    return this.getParentIndex(index) >= 0;
+  _hasParent(index) {
+    return this._getParentIndex(index) >= 0;
   }
-  hasLeftChild(index) {
-    return this.getLeftChildIndex(index) < this.size;
+  _hasLeftChild(index) {
+    return this._getLeftChildIndex(index) < this.size;
   }
-  hasRightChild(index) {
-    return this.getLeftChildIndex(index) < this.size;
+  _hasRightChild(index) {
+    return this._getLeftChildIndex(index) < this.size;
   }
-  parent(index) {
-    return this.storage[this.getParentIndex(index)];
+  _parent(index) {
+    return this.storage[this._getParentIndex(index)];
   }
-  leftChild(index) {
-    return this.storage[this.getLeftChildIndex(index)];
+  _leftChild(index) {
+    return this.storage[this._getLeftChildIndex(index)];
   }
-  rightChild(index) {
-    return this.storage[this.getRightChildIndex(index)];
+  _rightChild(index) {
+    return this.storage[this._getRightChildIndex(index)];
   }
-  swap(index1, index2) {
+  _swap(index1, index2) {
     let temp = this.storage[index1];
     this.storage[index1] = this.storage[index2];
     this.storage[index2] = temp;
   } // helper method --> end
-  heapifyUp(index) {
+  heapifyUp(childIndex) {
     // while (this.hasParent(index) && this.parent(index) > this.storage[index]) {
     //   //swap data
     //   this.swap(this.getParentIndex(index), index);
@@ -44,12 +44,16 @@ class MinHeap {
     //   index = this.getParentIndex(index);
     // }
     //recursive
-    if (this.hasParent(index) && this.parent(index) > this.storage[index]) {
-      this.swap(this.getParentIndex(index), index);
-      this.heapifyUp(this.getParentIndex(index));
+    if (
+      this._hasParent(childIndex) &&
+      this._parent(childIndex) > this.storage[childIndex]
+    ) {
+      this._swap(this._getParentIndex(childIndex), childIndex);
+      this.heapifyUp(this._getParentIndex(childIndex));
     }
   }
-  heapifyDown(index) {
+
+  heapifyDown(parentIndex) {
     // while (this.hasLeftChild(index)) {
     //   let smallerChildIndex = this.getLeftChildIndex(index);
     //   if (
@@ -65,22 +69,22 @@ class MinHeap {
     //   index = smallerChildIndex;
     // }
     //recursive
-    let smallest = index;
+    let smallest = parentIndex;
     if (
-      this.hasLeftChild(index) &&
-      this.storage[smallest] > this.leftChild(index)
+      this._hasLeftChild(parentIndex) &&
+      this.storage[smallest] > this._leftChild(parentIndex)
     ) {
-      smallest = this.getLeftChildIndex(index);
+      smallest = this._getLeftChildIndex(parentIndex);
     }
     if (
-      this.hasRightChild(index) &&
-      this.storage[smallest] > this.rightChild(index)
+      this._hasRightChild(parentIndex) &&
+      this.storage[smallest] > this._rightChild(parentIndex)
     ) {
-      smallest = this.getRightChildIndex(index);
+      smallest = this._getRightChildIndex(parentIndex);
     }
     //index is the current node
-    if (smallest != index) {
-      this.swap(index, smallest);
+    if (smallest != parentIndex) {
+      this._swap(parentIndex, smallest);
       this.heapifyDown(smallest);
     }
   }
