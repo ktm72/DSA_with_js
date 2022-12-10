@@ -7,11 +7,12 @@ function matrixReshape(mat, r, c) {
   if (row * col !== r * c) return mat;
 
   // deconstruct the original array
-  let flatArr = mat.reduce((acc, curr) => acc.concat(curr), []); //[[1,2],[3,4]] -> [1,2,3,4]
-  //   while (flatArr.length) {
+  //let flatArr = mat.reduce((acc, curr) => acc.concat(curr), []); //[[1,2],[3,4]] -> [1,2,3,4]
+  let flatArr = mat.flat();
+  //   while (r--) {
   //     result.push(flatArr.splice(0, c));
   //   }
-  while (r--) {
+  while (flatArr.length) {
     let len = result.length;
     result.push(flatArr.slice(len * c, len * c + c));
   } //slice is faster, doesn't mutate orginal array

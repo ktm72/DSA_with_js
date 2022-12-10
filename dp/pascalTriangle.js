@@ -67,33 +67,34 @@ let calculation = 0;
 // }
 
 const memoisePascalStep = () => {
-  const cache = {};
   let prevVal;
   return function pascalTriangle(numRows) {
+  	let currentValue =[1];
     if (numRows < 1) return [];
-    if (numRows === 1) return [[1]];
+    if (numRows === 1) return [currentValue];
     //say numRows = 2;
-    if (prevVal in cache) {
-      prevVal = cache[prevVal];
-    } else {
-      calculation++;
       prevVal = pascalTriangle(numRows - 1); // pascalTriangle(2 -1)-> [[1]], len->1
-      cache[prevVal];
-    }
     const lastRowOfPrev = prevVal[prevVal.length - 1]; //nR=2, prevVal[1-1] -> [1] , len ->1
-    const currentValue = lastRowOfPrev.reduce(
-      (acc, num, i) => {
-        //nR=2, lastRowOfPrev[0+1] -> undefined
+//    const currentValue = lastRowOfPrev.reduce(
+//      (acc, num, i) => {
+//        //nR=2, lastRowOfPrev[0+1] -> undefined
+//        if (lastRowOfPrev[i + 1] != undefined) {
+//          acc.push(lastRowOfPrev[i] + lastRowOfPrev[i + 1]);
+//        } else {
+//          //nR=2, acc = [1, pushed 1]
+//          acc.push(1);
+//        }
+//        return acc; // [1, 1]
+//      },
+//      [1]
+//    ); //nR =2, [1, 1]
+	for(let i =0; i < lastRowOfPrev.length; i++){
         if (lastRowOfPrev[i + 1] != undefined) {
-          acc.push(lastRowOfPrev[i] + lastRowOfPrev[i + 1]);
+        currentValue.push(lastRowOfPrev[i]+lastRowOfPrev[i + 1])
         } else {
-          //nR=2, acc = [1, pushed 1]
-          acc.push(1);
+          currentValue.push(1);
         }
-        return acc; // [1, 1]
-      },
-      [1]
-    ); //nR =2, [1, 1]
+    }
     const result = [...prevVal, currentValue]; //nR=2, [...[[1]], [1,1] ] -> [[1], [1,1]]
     return result;
   };
