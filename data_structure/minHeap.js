@@ -1,5 +1,6 @@
-class MinHeap {
-  constructor() {
+class Heap {
+  constructor(type) {
+    this.type = type;
     this.storage = [];
     this.size = 0;
   }
@@ -35,7 +36,15 @@ class MinHeap {
     let temp = this.storage[index1];
     this.storage[index1] = this.storage[index2];
     this.storage[index2] = temp;
-  } // helper method --> end
+  }
+  _compare(parent, child) {
+    if (this.type === "min") {
+      return parent - child;
+    } else if (this.type === "max") {
+      return child - parent;
+    }
+  }
+  // helper method --> end
   heapifyUp(childIndex) {
     // while (this.hasParent(index) && this.parent(index) > this.storage[index]) {
     //   //swap data
@@ -46,7 +55,7 @@ class MinHeap {
     //recursive
     if (
       this._hasParent(childIndex) &&
-      this._parent(childIndex) > this.storage[childIndex]
+      this._compare(this._parent(childIndex), this.storage[childIndex]) > 0
     ) {
       this._swap(this._getParentIndex(childIndex), childIndex);
       this.heapifyUp(this._getParentIndex(childIndex));
@@ -69,23 +78,23 @@ class MinHeap {
     //   index = smallerChildIndex;
     // }
     //recursive
-    let smallest = parentIndex;
+    let top = parentIndex; //min heap parentIndex =smallest, max heap parentIndex = largest
     if (
       this._hasLeftChild(parentIndex) &&
-      this.storage[smallest] > this._leftChild(parentIndex)
+      this._compare(this.storage[top], this._leftChild(parentIndex)) > 0
     ) {
-      smallest = this._getLeftChildIndex(parentIndex);
+      top = this._getLeftChildIndex(parentIndex);
     }
     if (
       this._hasRightChild(parentIndex) &&
-      this.storage[smallest] > this._rightChild(parentIndex)
+      this._compare(this.storage[top], this._rightChild(parentIndex)) > 0
     ) {
-      smallest = this._getRightChildIndex(parentIndex);
+      top = this._getRightChildIndex(parentIndex);
     }
     //index is the current node
-    if (smallest != parentIndex) {
-      this._swap(parentIndex, smallest);
-      this.heapifyDown(smallest);
+    if (top != parentIndex) {
+      this._swap(parentIndex, top);
+      this.heapifyDown(top);
     }
   }
 
@@ -95,27 +104,27 @@ class MinHeap {
     this.size++;
     this.heapifyUp(this.size - 1);
   }
-  //removes the top most min value
-  removeMin() {
+  //removes the top most min/max value
+  removeTop() {
     if (this.size === 0) return undefined; //throw new Error("Empty Heap");
     let data = this.storage[0];
     this.storage[0] = this.storage[this.size - 1];
     this.storage.pop();
+    if (this.size > 1) this.heapifyDown(0);
     this.size--;
-    this.heapifyDown(0);
     return data;
   }
 }
 
-const binaryHeap = new MinHeap();
+const binaryHeap = new Heap("min");
+binaryHeap.insert(1);
+binaryHeap.insert(12);
+binaryHeap.insert(9);
 binaryHeap.insert(10);
-binaryHeap.insert(20);
 binaryHeap.insert(5);
-binaryHeap.insert(8);
-binaryHeap.insert(0);
-binaryHeap.insert(15);
+binaryHeap.insert(6);
 binaryHeap.insert(30);
 
-binaryHeap.removeMin();
-console.log(binaryHeap.removeMin());
+binaryHeap.removeTop();
+console.log(binaryHeap.removeTop());
 console.log(binaryHeap);

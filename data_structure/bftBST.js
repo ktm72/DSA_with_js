@@ -60,7 +60,8 @@ const bft = (root) => {
   let queue = new PseudoQueue();
   queue.enqueue(root);
   while (!queue.isEmpty) {
-    console.log(Object.values(queue.elements).map((node) => node.value));
+    //level order
+    // console.log(Object.values(queue.elements).map((node) => node.value));
     //enqueue
     const currNode = queue.dequeue();
     //getting value here, if needed do operation
