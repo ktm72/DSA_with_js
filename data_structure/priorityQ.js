@@ -13,9 +13,9 @@ class PriorityQueue {
   get isEmpty() {
     return this.size === 0;
   }
-  enqueue(item, priority = 0) {
+  enqueue(value, priority = 0) {
     priority = Math.max(Number(priority), 0); //not less than 0;
-    const elem = { item, priority };
+    const elem = { value, priority };
 
     if (this.isEmpty || elem.priority >= this.#list[this.size - 1].priority) {
       this.#list.push(elem);
@@ -40,14 +40,15 @@ class PriorityQueue {
     console.log(this.#list);
   }
 }
+module.exports = PriorityQueue;
 
-const pq = new PriorityQueue();
+// const pq = new PriorityQueue();
 
-pq.enqueue(12);
-pq.enqueue(20, 2);
-pq.enqueue(24, 4);
-pq.enqueue(45, 3);
-pq.enqueue(25, 4);
+// pq.enqueue(12);
+// pq.enqueue(20, 2);
+// pq.enqueue(24, 4);
+// pq.enqueue(45, 3);
+// pq.enqueue(25, 4);
 
-console.log(pq.peek());
-pq.print();
+// console.log(pq.peek());
+// pq.print();

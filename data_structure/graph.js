@@ -32,8 +32,8 @@ class Graph {
   removeVertex(vertex) {
     if (!this.adjacenyList[vertex]) return undefined;
     while (this.adjacenyList[vertex].length) {
-      let temp = this.adjacenyList[vertex].pop();
-      this.removeEdge(vertex, temp);
+      let edge = this.adjacenyList[vertex].pop();
+      this.removeEdge(vertex, edge);
     }
     delete this.adjacenyList[vertex];
     return this;
