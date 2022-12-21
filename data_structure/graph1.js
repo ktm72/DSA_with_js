@@ -52,16 +52,15 @@ class Graph {
     }
   }
 
-  dfs(node) {
-    const stack = [node];
+  dfs(source) {
+    const stack = [source];
     const visited = new Set();
     while (stack.length) {
       const currNode = stack.pop();
       visited.add(currNode);
-      const edges = this.edges[currNode];
-      for (const edge of edges) {
-        if (!visited.has(edge.node)) {
-          stack.push(edge.node);
+      for (const neighbour of this.edges[currNode]) {
+        if (!visited.has(neighbour.node)) {
+          stack.push(neighbour.node);
         }
       }
     }
