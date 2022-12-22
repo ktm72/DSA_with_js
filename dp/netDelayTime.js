@@ -13,8 +13,8 @@
 var networkDelayTime = function (times, n, k) {
   const graph = [];
   for (let [source, target, weight] of times) {
-    if (!edges[source]) graph[source] = [];
-    edges[source].push([target, weight]);
+    if (!graph[source]) graph[source] = [];
+    graph[source].push([target, weight]);
   }
 
   return bfs();

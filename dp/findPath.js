@@ -1,7 +1,6 @@
 // bfs > dfs
-var validPath = function (n, edges, source, destination) {
+const buildGraph = (edges) => {
   let graph = new Map();
-  let visited = new Set();
   // create adjacency list from egdes
   // store the undirected edges for both vertices
   for (let [v, e] of edges) {
@@ -16,14 +15,18 @@ var validPath = function (n, edges, source, destination) {
       graph.set(e, [v]);
     }
   }
+  return graph;
+};
+var validPath = function (n, edges, source, destination) {
+  let graph = buildGraph(edges);
+  let visited = new Set();
   function dfs(vertex) {
     visited.add(vertex);
+    if (vertex === destination) return true;
     let neighbours = graph.get(vertex);
-    if (neighbours && neighbours.length > 0) {
-      for (let i = 0; i < neighbours.length; i++) {
-        if (!visited.has(neighbours[i])) {
-          dfs(neighbours[i]);
-        }
+    for (let neighbour of neighbours) {
+      if (!visited.has(neighbour)) {
+        dfs(neighbour);
       }
     }
   }
