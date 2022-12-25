@@ -100,3 +100,52 @@ function sortVertices(b, a) {
 //       [0, 1, 2, 3, 5],
 //       [0, 1, 2, 3, 4],
 //     ],
+
+// function colorGraph(graph, colors) {
+//   // Create a map to store the colors assigned to each vertex
+//   const colorMap = new Map();
+
+//   // Sort the vertices in descending order by their degree (number of edges)
+//   const vertices = graph.vertices.sort((a, b) => b.degree - a.degree);
+
+//   for (const vertex of vertices) {
+//     // Get the list of available colors (those not used by any of the vertex's neighbors)
+//     const availableColors = new Set(colors);
+//     for (const neighbor of vertex.neighbors) {
+//       if (colorMap.has(neighbor)) {
+//         availableColors.delete(colorMap.get(neighbor));
+//       }
+//     }
+
+//     // Assign the first available color to the vertex
+//     colorMap.set(vertex, availableColors.values().next().value);
+//   }
+
+//   return colorMap;
+// }
+
+// // Example usage
+// const graph = {
+//   vertices: [{
+//     id: 1,
+//     degree: 3,
+//     neighbors: [2, 3, 4]
+//   }, {
+//     id: 2,
+//     degree: 2,
+//     neighbors: [1, 3]
+//   }, {
+//     id: 3,
+//     degree: 2,
+//     neighbors: [1, 2]
+//   }, {
+//     id: 4,
+//     degree: 1,
+//     neighbors: [1]
+//   }]
+// };
+
+// const colors = ['red', 'green', 'blue'];
+
+// console.log(colorGraph(graph, colors));
+// Output: Map { 1 => 'red', 2 => 'green', 3 => 'green', 4 => 'blue' }

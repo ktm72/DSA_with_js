@@ -39,5 +39,5 @@ const sortByKahn = (elementsArr) => {
       }
     }
   }
-  return sortedQueue();
+  return sortedQueue;
 };

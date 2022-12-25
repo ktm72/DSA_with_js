@@ -1,120 +1,152 @@
 class SegmentTreeNode {
-  constructor(left, right) {
+  constructor(left, right, min = null, max = null) {
     this.left = left;
     this.right = right;
-    this.min = null;
-    this.max = null;
+    this.min = min;
+    this.max = max;
   }
 }
-
 class SegmentTree {
   constructor(values) {
     this.values = values;
-    this.root = this.buildTree(0, values.length - 1);
+    this.nodes = this.buildTree(0, values.length - 1);
   }
 
   buildTree(left, right) {
-    if (left > right) {
-      return null;
-    }
-
-    let root = new SegmentTreeNode(left, right);
     if (left === right) {
-      root.min = root.max = this.values[left];
-    } else {
-      let mid = left + Math.floor((right - left) / 2);
-      root.left = this.buildTree(left, mid);
-      root.right = this.buildTree(mid + 1, right);
-      root.min = Math.min(root.left.min, root.right.min);
-      root.max = Math.max(root.left.max, root.right.max);
+      return [
+        new SegmentTreeNode(left, right, this.values[left], this.values[left]),
+      ];
     }
 
-    return root;
-  }
-
-  queryMin(left, right) {
-    return this.query(left, right, (node) => node.min);
-  }
-
-  queryMax(left, right) {
-    return this.query(left, right, (node) => node.max);
+    let mid = left + Math.floor((right - left) / 2);
+    let leftNodes = this.buildTree(left, mid);
+    let rightNodes = this.buildTree(mid + 1, right);
+    let min = Math.min(leftNodes[0].min, rightNodes[0].min);
+    let max = Math.max(leftNodes[0].max, rightNodes[0].max);
+    let root = new SegmentTreeNode(left, right, min, max);
+    return [root, ...leftNodes, ...rightNodes];
   }
 
   query(left, right, selector) {
-    let result = selector(this.root);
-    if (this.root.left >= left && this.root.right <= right) {
-      return result;
-    } else if (this.root.left > right || this.root.right < left) {
-      return null;
-    } else {
-      let leftResult = this.query(left, right, selector);
-      let rightResult = this.query(left, right, selector);
-      return leftResult !== null ? leftResult : rightResult;
-    }
+    let nodes = this.nodes.filter(
+      (node) => node.left >= left && node.right <= right
+    );
+    return selector(nodes);
+  }
+
+  queryMin(left, right) {
+    return this.query(left, right, (nodes) =>
+      Math.min(...nodes.map((node) => node.min))
+    );
+  }
+
+  queryMax(left, right) {
+    return this.query(left, right, (nodes) =>
+      Math.max(...nodes.map((node) => node.max))
+    );
   }
 }
 
+// Unit tests
+
 let tree = new SegmentTree([1, 3, 2, 7, 9, 11]);
-console.log(tree.queryMin(1, 3)); // Output: 2
-console.log(tree.queryMax(4, 5)); // Output: 11
+console.log(tree.queryMin(1, 3) === 2);
+console.log(tree.queryMax(4, 5) === 11);
+console.log(tree.queryMin(0, 5) === 1);
+console.log(tree.queryMax(0, 5) === 11);
+console.log(tree.queryMin(2, 4) === 2);
+console.log(tree.queryMax(2, 4) === 9);
+
+tree = new SegmentTree([-1, 0, 1, 2, 3, 4]);
+console.log(tree.queryMin(1, 3) === 0);
+console.log(tree.queryMax(4, 5) === 4);
+console.log(tree.queryMin(0, 5) === -1);
+console.log(tree.queryMax(0, 5) === 4);
+console.log(tree.queryMin(2, 4) === 1);
+console.log(tree.queryMax(2, 4) === 3);
+
+// let tree = new SegmentTree([1, 3, 2, 7, 9, 11]);
+// console.log(tree);
+// console.log(tree.queryMin(0, 5)); // Output: 1
+// console.log(tree.queryMax(0, 5)); // Output: 11
+// console.log(tree.queryMin(3, 5)); // Output: 7
+// console.log(tree.queryMax(3, 5)); // Output: 11
+// console.log(tree.queryMin(1, 3)); // Output: 2
+// console.log(tree.queryMax(1, 3)); // Output: 7
 
 // class SegmentTree {
-//   constructor(invalidValue, aggregate) {
-//     this._data = [];
-//     this._original = null;
-//     this._invalidValue = invalidValue;
-//     this._aggregate = aggregate;
-//   }
-//   //Creates a segment tree using an array passed as element.
-//   static indexArray(array, placeholder, aggregate) {
-//     const segmentize = function (original, data, lo, hi, idx) {
-//       if (lo === hi) {
-//         data[idx] = original[lo];
-//       } else {
-//         var mid = Math.floor((lo + hi) / 2);
-//         var left = 2 * idx + 1;
-//         var right = 2 * idx + 2;
-//         segmentize(original, data, lo, mid, left);
-//         segmentize(original, data, mid + 1, hi, right);
-//         data[idx] = aggregate(data[left], data[right]);
-//       }
-//     };
-//     let result = [];
-//     if (array && array.length) {
-//       segmentize(array, result, 0, array.length - 1, 0);
-//     }
-//     let tree = new SegmentTree(placeholder, aggregate);
-//     tree._data = result;
-//     tree._original = array;
-//     return tree;
+//   constructor(arr) {
+//     this.arr = arr;
+//     this.tree = new Array(arr.length * 2);
+//     this.build(0, arr.length - 1, 1);
 //   }
 
-//   //Queries the SegmentTree in given range based on the set aggregate.
-//   query(start, end) {
-//     if (start > end) {
-//       throw new Error("The start index should be smaller by the end index");
+//   build(left, right, node) {
+//     if (left === right) {
+//       this.tree[node] = this.arr[left];
+//       return;
 //     }
-//     const findEl = function (originalArrayStart, originalArrayEnd, current) {
-//       if (start > originalArrayEnd) {
-//         return this._invalidValue;
-//       }
-//       if (end < originalArrayStart) {
-//         return this._invalidValue;
-//       }
-//       if (
-//         (start === originalArrayStart && end === originalArrayEnd) ||
-//         originalArrayStart === originalArrayEnd
-//       ) {
-//         return this._data[current];
-//       }
-//       let originalArrayMid = Math.floor(
-//         (originalArrayStart + originalArrayEnd) / 2
-//       );
-//       return this._aggregate(
-//         findEl(originalArrayStart, originalArrayMid, 2 * current + 1),
-//         findEl(originalArrayMid + 1, originalArrayEnd, 2 * current + 2)
-//       );
-//     }.bind(this);
-//     return findEl(0, this._original.length - 1, 0, this._aggregate);
+
+//     const mid = left + Math.floor((right - left) / 2);
+//     this.build(left, mid, node * 2);
+//     this.build(mid + 1, right, node * 2 + 1);
+//     this.tree[node] = Math.min(this.tree[node * 2], this.tree[node * 2 + 1]);
+//   }
+
+//   queryMin(
+//     left,
+//     right,
+//     node = 1,
+//     treeLeft = 0,
+//     treeRight = this.arr.length - 1
+//   ) {
+//     if (treeRight < left || right < treeLeft) {
+//       return Number.MAX_VALUE;
+//     }
+
+//     if (left <= treeLeft && treeRight <= right) {
+//       return this.tree[node];
+//     }
+
+//     const mid = treeLeft + Math.floor((treeRight - treeLeft) / 2);
+//     const leftMin = this.queryMin(left, right, node * 2, treeLeft, mid);
+//     const rightMin = this.queryMin(
+//       left,
+//       right,
+//       node * 2 + 1,
+//       mid + 1,
+//       treeRight
+//     );
+//     return Math.min(leftMin, rightMin);
+//   }
+
+//   update(
+//     index,
+//     value,
+//     node = 1,
+//     treeLeft = 0,
+//     treeRight = this.arr.length - 1
+//   ) {
+//     if (treeLeft === treeRight) {
+//       this.tree[node] = value;
+//       return;
+//     }
+
+//     const mid = treeLeft + Math.floor((treeRight - treeLeft) / 2);
+//     if (index <= mid) {
+//       this.update(index, value, node * 2, treeLeft, mid);
+//     } else {
+//       this.update(index, value, node * 2 + 1, mid + 1, treeRight);
+//     }
+//     this.tree[node] = Math.min(this.tree[node * 2], this.tree[node * 2 + 1]);
 //   }
 // }
+
+// const st = new SegmentTree([1, 3, 2, 7, 9, 11]);
+// console.log(st.queryMin(1, 3)); // 2
+// st.update(2, 5);
+// console.log(st.queryMin(2, 3)); // 5
+// console.log(st.queryMin(0, 3)); // 1
+// console.log(st.queryMin(1, 2)); // 3
+// console.log(st.queryMin(3, 5)); // 7
