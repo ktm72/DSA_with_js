@@ -2,6 +2,12 @@ var updateMatrix = function (matrix) {
   const row = matrix.length;
   const col = matrix[0].length;
   let queue = [];
+  const range = [
+    [-1, 0], //left
+    [1, 0], // right
+    [0, -1], // down
+    [0, 1], //top
+  ]; //all direction
 
   for (let i = 0; i < row; i++) {
     for (let j = 0; j < col; j++) {
@@ -13,12 +19,6 @@ var updateMatrix = function (matrix) {
     }
   }
   for (const [x, y] of queue) {
-    const range = [
-      [-1, 0], //left
-      [1, 0], // right
-      [0, -1], // down
-      [0, 1], //top
-    ]; //all direction
     range.forEach(([p, q]) => {
       p += x;
       q += y;
