@@ -1,5 +1,5 @@
-function fibonacci(n) {
-  const table = new Array(n + 1).fill(0);
+function fibonacci(n: number): number {
+  const table: number[] = new Array(n + 1).fill(0);
   //base case
   table[1] = 1;
   for (let i = 0; i < n; i++) {

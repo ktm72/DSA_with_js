@@ -7,9 +7,9 @@
 //   return memo[key];
 // };
 
-function gridTraveller(m, n, memo = {}) {
-  const table = Array(m + 1)
-    .fill()
+function gridTraveller(m: number, n: number) {
+  const table: number[][] = Array(m + 1)
+    .fill(null)
     .map(() => Array(n + 1).fill(0));
   table[1][1] = 1;
   for (let r = 1; r <= m; r++) {

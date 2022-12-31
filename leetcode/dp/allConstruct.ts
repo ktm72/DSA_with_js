@@ -1,13 +1,20 @@
-function allConstruct(s, wordBank, memo = {}) {
+function allConstruct(
+  s: string,
+  wordBank: string[],
+  memo: { [key: string]: string[][] } = {}
+): [] | string[][] {
   if (s in memo) return memo[s];
   if (s === "") return [[]];
 
-  let result = [];
+  let result: string[][] = [];
   for (let word of wordBank) {
     if (s.indexOf(word) === 0) {
-      const suffix = s.slice(word.length); //rest of the str
-      const suffixWays = allConstruct(suffix, wordBank, memo);
-      const targetWays = suffixWays.map((way) => [word, ...way]);
+      const suffix: string = s.slice(word.length); //rest of the str
+      const suffixWays: string[][] = allConstruct(suffix, wordBank, memo);
+      const targetWays: string[][] = suffixWays.map((way: string[]) => [
+        word,
+        ...way,
+      ]);
       result.push(...targetWays);
     }
   }
