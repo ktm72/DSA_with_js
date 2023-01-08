@@ -1,5 +1,4 @@
 /**
- *
  * @param points
  * @returns max points in a straight line
  */
