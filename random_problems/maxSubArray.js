@@ -16,6 +16,6 @@ function maxSubArray(nums) {
   //     sum = 0;
   //   }
   // }
-  // return max; //O(n), slower one
+  // return max; //O(n)
 }
 console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
