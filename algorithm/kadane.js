@@ -1,4 +1,6 @@
-//if the sum becomes 0 means till this point we don't have the max sum subArray
+//if the sum becomes 0 means till this point we count the max
+//the point max isn't changed, is the end of subArray
+//starts at the point when sum is positive
 function maxSubArray(nums) {
   let max = nums[0];
   let sum = 0;
