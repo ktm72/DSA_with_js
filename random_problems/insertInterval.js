@@ -45,7 +45,9 @@ function insert(intervals, newInterval) {
       result.push(intervals[i]);
     } //overlapping, merge
     else {
-      newInterval = [Math.min(ns, s), Math.max(e, ne)];
+      // newInterval = [Math.min(ns, s), Math.max(e, ne)];
+      newInterval[0] = Math.min(ns, s);
+      newInterval[1] = Math.max(e, ne);
     }
   }
   result.push(newInterval);
