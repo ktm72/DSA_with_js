@@ -13,6 +13,12 @@ function gcdOfStrings(str1: string, str2: string): string {
     return gcd(y, x % y);
   };
   const div: number = gcd(n, m);
+  // while (m !== 0) {
+  //   let t = m;
+  //   m = n % m;
+  //   n = t;
+  // }
+  // return str1.slice(0, n);
   return str1.slice(0, div);
 }
 console.log(gcdOfStrings("ABCABC", "ABC")); //ABC
